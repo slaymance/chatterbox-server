@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Mocha Spec Runner</title>
+
+    <!-- library files -->
+    <script src="../../client/bower_components/jquery/dist/jquery.js"></script>
+    <script src="../../client/bower_components/underscore/underscore.js"></script>
+    <script src="../../client/bower_components/backbone/backbone.js"></script>
+
+    <!-- testing frameworks -->
+    <link rel="stylesheet" href="lib/mocha/mocha.css">
+    <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="../../node_modules/chai/chai.js"></script>
+    <script>
+      mocha.setup('bdd');
+      window.expect = chai.expect;
+      $(function() {
+        window.mochaPhantomJS ? mochaPhantomJS.run() : mocha.run();
+      });
+    </script>
+
+    <!-- source files -->
+    <script src="../basic-server.js"></script>
+    <script src="../request-handler.js"></script>
+
+    <!-- tests -->
+    <script src="LiveServerIntegrationSpec.js"></script>
+    <script src="ServerSpec.js"></script>
+    <script src="Stubs.js"></script>
+  </head>
+  <body>
+    <div id="mocha"></div>
+  </body>
+</html>

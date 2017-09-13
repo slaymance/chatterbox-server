@@ -1,0 +1,16 @@
+{
+  "name": "chatterbox-server",
+  "description": "Implement a chat server",
+  "main": "",
+  "authors": [
+    "Hack Reactor <curriculum.team@hackreactor.com>"
+  ],
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/ryanakiyama/hrsf81-chatterbox-server",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test",
+    "tests"
+  ]
+}
