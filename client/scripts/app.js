@@ -79,7 +79,6 @@ app = {
       data: { order: '-createdAt' },
       contentType: 'application/json',
       success: function(json) {
-        console.log(json, 'success');
         app.displayMessages(json.results);
       },
       complete: function() {
@@ -98,6 +97,7 @@ app = {
       success: function(json) {
         message.objectId = json.objectId;
         app.displayMessage(message);
+        console.log(json);
       },
       complete: function() {
         app.stopSpinner();
@@ -117,12 +117,12 @@ app = {
 };
 
 
-// /////////////////////////////////////////////////////////////////////////////
-// // Backbone-based Implementation of (minimal) chatterbox client
-// /////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+// Backbone-based Implementation of (minimal) chatterbox client
+/////////////////////////////////////////////////////////////////////////////
 
 // var Message = Backbone.Model.extend({
-//   url: 'https://api.parse.com/1/classes/messages/',
+//   url: 'http://127.0.0.1:3000/classes/messages',
 //   defaults: {
 //     username: '',
 //     text: ''
@@ -132,7 +132,7 @@ app = {
 // var Messages = Backbone.Collection.extend({
 
 //   model: Message,
-//   url: 'https://api.parse.com/1/classes/messages/',
+//   url: 'http://127.0.0.1:3000/classes/messages',
 
 //   loadMsgs: function() {
 //     this.fetch({data: { order: '-createdAt' }});
