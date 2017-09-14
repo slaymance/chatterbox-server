@@ -12,6 +12,9 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 var urlParse = require('url').parse;
+var parseData = require('querystring').parse;
+
+let body = {results: []};
 
 var requestHandler = function(request, response) {
   var defaultCorsHeaders = {
@@ -39,7 +42,6 @@ var requestHandler = function(request, response) {
 
   var statusCode;
   var headers = defaultCorsHeaders;
-  // console.log(urlParse('http://127.0.0.1:3000/classes/messages'));
 
   if (urlParse(request.url).pathname !== '/classes/messages') {
     statusCode = 404;
@@ -51,25 +53,32 @@ var requestHandler = function(request, response) {
   if (request.method === 'POST') {
     statusCode = 201;
   
-    // let bufferArray = [];
-    // request.on('data', (chunk) => {
-    //   bufferArray.push(chunk);
-    // }).on('end', () => {
-    //   var buffered = Buffer.concat(bufferArray).toString('ascii');
-    //   // var parsed = JSON.parse(buffered);
-    //   body.results.push(buffered);
+    let bufferArray = [];
+    request.on('data', (chunk) => {
+      bufferArray.push(chunk);
+    }).on('end', () => {
+      var buffered = Buffer.concat(bufferArray).toString();
+      var parsedData;
+      if (buffered[0] !== '{') {
+        parsedData = parseData(buffered);
+      } else {
+        parsedData = JSON.parse(buffered);
+      }
 
-      // console.log(JSON.parse(body.results[0]));
-    // });
-    let random = Math.floor(Math.random() * 100);
-    headers['Content-Type'] = 'application/json';
-    response.writeHead(statusCode, headers);
-    response.end(JSON.stringify({objectId: random}));
+      let random = Math.floor(Math.random() * 100);
+      parsedData.objectId = random;
+      body.results.push(parsedData);
+      headers['Content-Type'] = 'application/json';
+      response.writeHead(statusCode, headers);
+      response.end(JSON.stringify({objectId: random}));
+    });
+
   } else if (request.method === 'GET') {
     statusCode = 200;
     headers['Content-Type'] = 'application/json';
     response.writeHead(statusCode, headers);
-    response.end(JSON.stringify({results: [{test: 'hello'}]}));
+    response.end(JSON.stringify(body));
+    
   } else if (request.method === 'OPTIONS') {
     statusCode = 200;
     response.writeHead(statusCode, headers);

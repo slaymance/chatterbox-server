@@ -26,7 +26,9 @@ module.exports = {
 
     this.addListener = this.on = function(type, callback) {
       if (type === 'data') {
+        console.log('NON-STRINGIFIED DATA', this._postData);
         callback(JSON.stringify(this._postData));
+        console.log('STRINGIFIED DATA', this._postData);
       }
 
       if (type === 'end') {

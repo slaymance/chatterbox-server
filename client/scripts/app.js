@@ -43,7 +43,7 @@ app = {
     e.preventDefault();
 
     var message = {
-      username: app.username,
+      username: 'FRIENDS',
       text: app.$text.val()
     };
 
@@ -97,7 +97,6 @@ app = {
       success: function(json) {
         message.objectId = json.objectId;
         app.displayMessage(message);
-        console.log(message);
       },
       complete: function() {
         app.stopSpinner();
