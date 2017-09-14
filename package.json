@@ -15,7 +15,7 @@
     "test": "mocha server/spec",
     "test:es6": "mocha --compilers js:babel-register server/spec",
     "lint": "eslint ./",
-    "debug": "node --inspect server/basic-server.js"
+    "debug": "node --inspect --debug-brk server/basic-server.js"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",

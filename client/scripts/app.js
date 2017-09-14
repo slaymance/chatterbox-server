@@ -97,7 +97,7 @@ app = {
       success: function(json) {
         message.objectId = json.objectId;
         app.displayMessage(message);
-        console.log(json);
+        console.log(message);
       },
       complete: function() {
         app.stopSpinner();

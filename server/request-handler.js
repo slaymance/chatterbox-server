@@ -11,7 +11,7 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
-var body = {results: []};
+var urlParse = require('url').parse;
 
 var requestHandler = function(request, response) {
   var defaultCorsHeaders = {
@@ -35,28 +35,45 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
   // console.log('Serving request type ' + request.method + ' for url ' + request.url);
+ 
+
   var statusCode;
   var headers = defaultCorsHeaders;
+  // console.log(urlParse('http://127.0.0.1:3000/classes/messages'));
+
+  if (urlParse(request.url).pathname !== '/classes/messages') {
+    statusCode = 404;
+    response.writeHead(statusCode, headers);
+    response.end();
+  }
+
 
   if (request.method === 'POST') {
     statusCode = 201;
-
-    let bufferArray = [];
-    request.on('data', (chunk) => {
-      bufferArray.push(chunk);
-    }).on('end', () => {
-      var buffered = Buffer.concat(bufferArray).toString('ascii');
-      // var parsed = JSON.parse(buffered);
-      body.results.push(buffered);
+  
+    // let bufferArray = [];
+    // request.on('data', (chunk) => {
+    //   bufferArray.push(chunk);
+    // }).on('end', () => {
+    //   var buffered = Buffer.concat(bufferArray).toString('ascii');
+    //   // var parsed = JSON.parse(buffered);
+    //   body.results.push(buffered);
 
       // console.log(JSON.parse(body.results[0]));
-    });
+    // });
+    let random = Math.floor(Math.random() * 100);
     headers['Content-Type'] = 'application/json';
+    response.writeHead(statusCode, headers);
+    response.end(JSON.stringify({objectId: random}));
   } else if (request.method === 'GET') {
     statusCode = 200;
     headers['Content-Type'] = 'application/json';
+    response.writeHead(statusCode, headers);
+    response.end(JSON.stringify({results: [{test: 'hello'}]}));
   } else if (request.method === 'OPTIONS') {
     statusCode = 200;
+    response.writeHead(statusCode, headers);
+    response.end();
   }
 
 
@@ -71,7 +88,7 @@ var requestHandler = function(request, response) {
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
-  response.writeHead(statusCode, headers);
+  // response.writeHead(statusCode, headers);
 
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
@@ -80,7 +97,7 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  response.end(JSON.stringify(body));
+  // response.end(JSON.stringify(body));
 
 };
 

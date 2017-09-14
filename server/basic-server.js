@@ -1,9 +1,6 @@
 /* Import node's http module: */
 var http = require('http');
 var handleRequest = require('./request-handler.js');
-var url = require('url');
-console.log('url:', url.parse);
-var URL = url.parse('http://127.0.0.1:3000/classes/messages');
 
 // Every server needs to listen on a port with a unique number. The
 // standard port for HTTP servers is port 80, but that port is
